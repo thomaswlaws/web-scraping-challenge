@@ -5,94 +5,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Mission to Mars</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <style>
-    table, th, td {
-      border: 1px solid black;
-    }
-  </style>
+  <title>Mars Data</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-  <div class="container-fluid">
-
+<body style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+  <div clas="container">
     <div class="jumbotron text-center">
       <h1>Mission to Mars</h1>
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
     </div>
-
-    <div>
-      <p>
-        <h3>Latest Mars News</h3>
-        <h4>{{ data.nasa_mars_title}}</h4>
-        {{ data.nasa_mars_paragraph }}
-      </p>
-    </div>
-
-    <div style="margin-bottom: 40px;">
-      <div class="row">
-
-        <div class="col-8">
-          <h3>Featured Mars Image</h3>
-          <a href="{{ data.jpl_image }}"><img src="{{ data.jpl_image }}" alt="JPL Featured Space Image" width="100%"></a>
-        </div>
-
-        <div class="col-4">
-
-          <div class="card" style="margin-bottom: 20px;">
-            <div class="card-body">
-              <h4 class="card-title">Current Weather on Mars</h4>
-              <p class="card-text"> {{ data.mars_latest_tweet }} </p>
-            </div>  
-          </div>
-
-          <div>
-            <h4>Mars Facts</h4>
-            {{data.mars_facts | safe}}
-          </div> 
-
-        </div>
       
+    <div class="row">
+      <div class="col-md-12 col-md-offset-1">
+        <h3>Latest Mars News</h3>
+        <h4>{{mars_data.news_title}}</h4>
+        <p>{{mars_data.news_p}}</p>
       </div>
     </div>
-    
-  </div>
 
-  <div class="container-fluid text-center">
-
-    <h3>Mars Hemispheres</h3>
-    <hr>
-    <div class="container">
-      <div class="row">
-        {% for hemisphere in data.mars_hemisphere %}
-        <div class="col">
-          <div class="card" style="width: 500px; margin:5px">
-            <a href="{{hemisphere['img_url']}}"><img src="{{hemisphere['img_url']}}" class="card-img-top" alt="{{key}}" width="500px" height="500px"></a>
-            <div class="card-body" style="padding: 10px 0px 0px 0px;">
-                <h5 class="card-title">{{hemisphere["title"]}}</h5>
-            </div>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-1">
+        <h3>Featured Mars Image</h3>
+        <img src={{mars_data.featured_image_url}} class="img-responsive img-rounded" alt="Mars Image">
+      </div>
+      <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>Current Weather on Mars</h4>
+            <p>{{mars_data.mars_weather}}</p>
           </div>
         </div>
-          {% if loop.index % 2 == 0 %}
-            <div class="w-100"></div>
-          {% endif %}
-        {% endfor %}
+        <div>
+          {{mars_data.facts_table | safe}}
+        </div>
       </div>
     </div>
-
+    
+    <h3 style="padding-top: 25px; margin-top: 25px; text-align: center;">Mars Hemispheres</h3>
+    <div class="card-deck">
+        <hr>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="row">
+                {% for image in mars_data.hemisphere_image_urls %}
+                <div class="col-md-6">
+                    <div class="card text-white bg-dark" style="margin: 30px; border: 2px solid rgb(70, 70, 70); padding: 5px; border-radius: 6px;">
+                        <img class="card-img-top img-responsive img-rounded" src="{{ image.img_url }}" />
+                        <div class="card-body">
+                            <p class="card-text" style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-weight: bold; color: rgb(34, 34, 34);">{{ image.img_title }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>    
   </div>
-
 </body>
-
-</html>
-
-
-
-
-
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    
-  </body>
 </html>
